@@ -7,8 +7,8 @@ import {
 const router = express.Router();
 
 // routers
-router.get('./:chatId', getMessages);
-router.get('./group/:chatId', getGroupMessages);
+router.get('/:chatId', getMessages);
+router.get('/group/:chatId', getGroupMessages);
 
 // exported router
 export default router;
