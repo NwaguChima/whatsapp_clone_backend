@@ -20,14 +20,17 @@ export interface IMessage extends mongoose.Document {
 const MessageSchema = new Schema(
   {
     senderId: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'UserAuth',
       required: [true, 'senderId is required'],
     },
+
     chatId: {
-      type: String,
+      type: Schema.Types.ObjectId,
       refPath: 'chatType',
       required: [true, 'chatId is required'],
     },
+
     chatType: {
       type: String,
       enum: {
@@ -36,10 +39,12 @@ const MessageSchema = new Schema(
       },
       required: [true, 'chatType is required'],
     },
+
     text: {
       type: String,
       required: [true, 'text is required'],
     },
+
     mediaType: {
       type: String,
       required: [true, 'mediaType is required'],
@@ -48,16 +53,28 @@ const MessageSchema = new Schema(
         message: 'mediaType must be either image, video,document or audio',
       },
     },
+
     media: {
       type: {
         type: String,
         url: String,
       },
     },
+
     deletedAt: {
       type: Date,
     },
+
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+
+    updatedAt: {
+      type: Date,
+    },
   },
+
   {
     toJSON: {
       virtuals: true,

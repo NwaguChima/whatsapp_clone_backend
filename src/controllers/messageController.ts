@@ -15,7 +15,7 @@ export async function getMessages(req: Request, res: Response) {
  specified by the query parameter room */
 export async function getGroupMessages(req: Request, res: Response) {
   try {
-    let id = req.params.id;
+    let id = req.params.groupId;
     const chatGroup = Message.find({ id, chatType: 'Group' });
     if (!chatGroup) {
       return res.status(404).json({ message: 'Group does not exist!' });
