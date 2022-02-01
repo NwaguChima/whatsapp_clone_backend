@@ -1,5 +1,6 @@
 import express from 'express';
 import app from '../app';
+import { createGroup } from '../controllers/groupController';
 
 const router = express.Router();
 
@@ -7,11 +8,11 @@ const router = express.Router();
 
 
 // get route
-router.route("/").get();
+// router.route("/").get();
 
 
 // posts route
-router.route("/").post();
+router.post("/create", createGroup);
 
 
 

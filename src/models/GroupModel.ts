@@ -3,15 +3,16 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export interface IGroup extends mongoose.Document {
-  createdBy:string;
-  members:string[];
-  groupName:string;
-  groupDescription:string;
-  groupImage:string;
-  groupImageId:string;
-  groupAdmin:string;
-  slug:string;
+  createdBy: string;
+  members: string[];
+  groupName: string;
+  groupDescription: string;
+  groupImage: string;
+  groupImageId: string;
+  groupAdmin: string;
+  slug: string;
   createdAt: Date;
+  id: string;
 }
 
 const GroupSchema = new Schema({
@@ -48,13 +49,15 @@ const GroupSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-
-  toJSON: {
-    virtuals: true,
+  id: {
+    type: String,
   },
-  toObject: {
-    virtuals: true,
-  },
+  // toJSON: {
+  //   virtuals: true,
+  // },
+  // toObject: {
+  //   virtuals: true,
+  // }
 });
 
 export const Group = mongoose.model<IGroup>('Group', GroupSchema);

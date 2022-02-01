@@ -21,13 +21,13 @@ export const validateLogin = (data: Login) => {
     return schema.validate(data);
 }
 
-export const validateCreateGroup = (data: Group) => {
+export const validateCreateGroup = (info: Group) => {
     const schema = Joi.object({
         groupName: Joi.string().required(),
-        groupDescription: string().required(),
-        groupImage: string().required(),
-        groupImageId: string().required(),
-        groupAdmin: string().required(),
-    }).unknown()
-    return schema.validate(data)
+        groupDescription: Joi.string().required(),
+        groupImage: Joi.string().required(),
+        groupImageId: Joi.string().required(),
+        groupAdmin: Joi.string().required()
+    })
+    return schema.validate(info)
 }
