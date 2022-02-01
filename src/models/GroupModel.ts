@@ -17,7 +17,8 @@ export interface IGroup extends mongoose.Document {
 const GroupSchema = new Schema(
   {
     createdBy: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'UserAuth',
       required: [true, 'createdBy is required'],
     },
     members: {
