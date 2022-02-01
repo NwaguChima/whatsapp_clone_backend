@@ -49,12 +49,12 @@ const GroupSchema = new Schema({
     default: Date.now,
   },
 
-  toJSON: {
-    virtuals: true,
-  },
-  toObject: {
-    virtuals: true,
-  },
+  // toJSON: {
+  //   virtuals: true,
+  // },
+  // toObject: {
+  //   virtuals: true,
+  // },
 });
 
 export const Group = mongoose.model<IGroup>('Group', GroupSchema);

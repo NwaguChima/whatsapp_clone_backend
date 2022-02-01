@@ -8,12 +8,15 @@ import { signup } from '../controllers/userAuthController';
 import { getAllFriends, addFriends } from '../controllers/userFriendController';
 import { updateUser, getUser } from '../controllers/updateUserController';
 import { protect } from '../controllers/verifyEmail';
+import { otherUserProfile } from '../controllers/userAuthController'
 
 const upload = require('../multer');
 const router = express.Router();
 //reset
 
 router.get('/friends', protect, getAllFriends);
+
+router.get('/:userId',protect, otherUserProfile)
 
 router.post('/signup', signup);
 router.post('/friends', protect, addFriends);

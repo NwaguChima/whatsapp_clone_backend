@@ -70,3 +70,5 @@ export const addFriends = async (
     res.status(500).json({ error });
   }
 };
+
+

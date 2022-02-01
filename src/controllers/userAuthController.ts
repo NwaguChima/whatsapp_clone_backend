@@ -5,8 +5,10 @@ import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 
 import { UserAuth } from '../models/Users';
+import { Group } from '../models/GroupModel';
 
 import { userRegisterInput } from '../validation/signup';
+import { updateUser } from './updateUserController';
 
 export const signup = async (
   req: Request,
@@ -104,7 +106,6 @@ export const signup = async (
                 console.log('Message sent: %s', info.messageId);
               });
 
-
               newUser
                 .save()
                 .then((user: any) =>
@@ -134,5 +135,62 @@ export const signup = async (
     console.log(error);
 
     res.status(401).json({ message: 'Unable to sign up user' });
+  }
+};
+
+
+
+// Get basic information about other user
+
+export const otherUserProfile = async (req: Request, res: Response) => {
+  try {
+    // get the user id
+  
+    const {otherUserId} = req.params
+    const otherUser = await UserAuth.findById({ _id: otherUserId });
+    // check if the user exist, if not return an error message
+    if (!otherUser)
+      return res.status(404).json({
+        status: 'fail',
+        message: 'User does not exist' 
+      })
+       // get the user and return required data if the user exist
+      const { firstName, lastName, avatar } = otherUser;
+      res.status(200).json({
+      status: 'success',
+      data: { Name: `${firstName} ${lastName}`, Image: avatar },
+    });
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
+
+
+// Get a particular group info
+export const getGroupInfo = async (req: Request, res: Response) => {
+  try {
+    // get the group's id and check if the group exist exist
+    const { groupId } = req.params
+    const group = await Group.findById({ _id: groupId });
+    // if group does not exist, return an error message
+    if (!group)
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Group does not exist'
+      })
+      // get the group and return required data if the group exist
+    const { groupName, groupImage, groupDescription, members, slug } = group;
+    res.status(200).json({
+      status: 'success',
+      data: {
+        groupName,
+        groupImage,
+        groupDescription,
+        groupMembers: members,
+        groupLink: slug,
+      },
+    });
+  } catch (error: any) {
+    console.log(error.message);
   }
 };
