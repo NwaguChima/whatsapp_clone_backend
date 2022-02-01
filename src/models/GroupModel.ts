@@ -9,7 +9,8 @@ export interface IGroup extends mongoose.Document {
   groupDescription: string;
   groupImage: string;
   groupImageId: string;
-  groupAdmin: string;
+  groupAdmin: string[];
+  groupId: string;
   slug: string;
   createdAt: Date;
 }
@@ -22,7 +23,12 @@ const GroupSchema = new Schema(
       required: [true, 'createdBy is required'],
     },
     members: {
-      type: [String],
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'UserAuth',
+        },
+      ],
       required: [true, 'members is required'],
     },
     groupName: {
@@ -45,7 +51,6 @@ const GroupSchema = new Schema(
           ref: 'UserAuth',
         },
       ],
-      required: [true, 'groupAdmin is required'],
     },
     slug: {
       type: String,
@@ -55,6 +60,7 @@ const GroupSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+    groupId: String,
   },
   {
     toJSON: {

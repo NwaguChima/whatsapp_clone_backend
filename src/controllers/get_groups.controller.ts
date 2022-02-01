@@ -6,7 +6,7 @@ import { CustomRequest } from '../utils/custom';
 const getAllGroups = async (req: CustomRequest, res: Response) => {
   try {
     const userLogin = req.user.id;
-    console.log(userLogin);
+
     // find group where the user.id is present in the members array
     let testLogin = 'abcde';
     const groups = await Group.find({ members: testLogin });
@@ -16,6 +16,13 @@ const getAllGroups = async (req: CustomRequest, res: Response) => {
         message: 'no groups found for this user',
       });
     }
+    // filtering the queryObj
+    const queryObj = { ...req.query };
+
+    const excludedFields = ['select', 'sort', 'limit', 'page'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    console.log(req.query, queryObj);
 
     res.status(200).json({
       message: 'success',
@@ -31,24 +38,26 @@ const getAllGroups = async (req: CustomRequest, res: Response) => {
 const getGroup = async (req: CustomRequest, res: Response) => {
   try {
     // first we get the user login id
-        const userLogin = req.user.id;
-        console.log(userLogin);
-        // find group where the user.id is present in the members array
-        let testLogin = 'abcde';
-        const groups = await Group.find({ members: testLogin });
+    const userLogin = req.user.id;
 
-        if (groups.length <= 0) {
-          return res.status(404).json({
-            message: 'no groups found for this user',
-          });
-        }
-        // find a particular group by its id or its name
-        const group = await Group.find({$or:{$id: '5e9f9b8f9b8f9b8f9b8f9b8f', $name: 'test'}});
+    // find group where the user.id is present in the members array
+    let testLogin = 'abcde';
+    const groups = await Group.find({ members: testLogin });
 
-        res.status(200).json({
-          message: 'success',
-         data:group,
-        });
+    if (groups.length <= 0) {
+      return res.status(404).json({
+        message: 'no groups found for this user',
+      });
+    }
+
+    // '5e9f9b8f9b8f9b8f9b8f9b8f
+    // find a particular group by its id or its name
+    // const group = await Group.find();
+
+    res.status(200).json({
+      message: 'success',
+      data: 'hello',
+    });
     // then we get the group id
     const groupId = req.params.id;
   } catch (error: any) {
@@ -57,4 +66,4 @@ const getGroup = async (req: CustomRequest, res: Response) => {
   }
 };
 // export the functions
-export { getAllGroups };
+export { getAllGroups, getGroup };

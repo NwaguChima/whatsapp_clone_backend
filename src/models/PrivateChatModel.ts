@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export interface IChat extends mongoose.Document {
+
   members: string[];
   firstMesssageAt: Date;
   lastMessageAt: Date;
@@ -10,8 +11,14 @@ export interface IChat extends mongoose.Document {
 
 const PrivateChatSchema = new Schema(
   {
+    // members should contain the userIds of the users in the chat
     members: {
-      type: [String],
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'UserAuth',
+        },
+      ],
       required: [true, 'members is required'],
     },
     firstMesssageAt: {
