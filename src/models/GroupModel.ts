@@ -38,8 +38,13 @@ const GroupSchema = new Schema(
     groupImageId: {
       type: String,
     },
-    groupAdmin: {
-      type: String,
+    groupAdmins: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'UserAuth',
+        },
+      ],
       required: [true, 'groupAdmin is required'],
     },
     slug: {
