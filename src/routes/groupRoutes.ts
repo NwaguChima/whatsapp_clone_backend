@@ -1,7 +1,8 @@
 import express from 'express';
 import app from '../app';
-import { getAllGroups, getGroup } from '../controllers/get_groups.controller';
+import { getGroup, createGroup } from '../controllers/get_groups.controller';
 import { protect } from '../controllers/verifyEmail';
+const upload = require('../multer');
 
 const router = express.Router();
 
@@ -10,10 +11,10 @@ const router = express.Router();
 // get route
 router.route('/').get();
 
-router.route('/').get(protect, getAllGroups);
-router.route('/:id').get(protect, getGroup);
+router.route('/').get(protect, getGroup);
+
 // posts route
-router.route('/').post();
+router.route('/').post(protect, upload.single('groupImage'), createGroup);
 
 // exported router
 export default router;

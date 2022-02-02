@@ -54,7 +54,6 @@ const GroupSchema = new Schema(
     },
     slug: {
       type: String,
-      required: [true, 'slug is required'],
     },
     createdAt: {
       type: Date,
