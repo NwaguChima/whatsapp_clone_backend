@@ -12,7 +12,7 @@ export interface IGroup extends mongoose.Document {
   groupAdmin: string;
   slug: string;
   createdAt: Date;
-  id: string;
+  groupId: string;
 }
 
 const GroupSchema = new Schema({

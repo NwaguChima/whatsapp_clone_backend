@@ -27,7 +27,7 @@ export const validateCreateGroup = (info: Group) => {
         groupDescription: Joi.string().required(),
         groupImage: Joi.string().required(),
         groupImageId: Joi.string().required(),
-        
     })
     return schema.validate(info)
 }
+

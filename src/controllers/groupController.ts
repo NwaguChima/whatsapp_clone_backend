@@ -19,11 +19,14 @@ export const createGroup = async (
             return res.status(400).send(error.details[0].message);
         }
 
-        const admin = req.user!.id
-        const groupAdmin = [admin]
+        const userId = req.user!.id
+        const userStr = req.user!.id.toString()
+        console.log(userStr)
+        // const admin = await Group.find({ id: userId }).populate('id')
+        const groupAdmin = [userId]
         const id = nanoid()
         const slug = `http://${req.headers.host}/api/v1/groups/${id}`
-        const groupInfo = { id: id, createdBy: admin, members: [admin], slug, groupAdmin, ...req.body }
+        const groupInfo = { id: id, createdBy: userId, members: [userStr], slug, groupAdmin, ...req.body }
         const group = await Group.create({ ...groupInfo })
         console.log(group)
         return res.status(201).json({ message: "successful", link: slug })
@@ -42,11 +45,11 @@ export const getAllGroups = async (
 ) => {
     try {
         const userId = req.user!.id;
-        const findGroups = await Group.find({ members: userId }).populate('groupId')
+        console.log(userId)
+        const findGroups = await Group.find({ members: userId })
         return res.status(200).json({ allgroups: findGroups })
     } catch (error: any) {
         return res.status(403).json({ error: error.message })
-
     }
 }
 
@@ -60,14 +63,18 @@ export const addOthers = async (
 ) => {
     try {
         const groupId = req.params.groupId
-        const { id } = req.body
-        const findGroup = await Group.findOneAndUpdate({ $and:[{groupAdmin: id},{groupId: groupId}] },{$addToSet:{members:[id]}})
+        const { memberId } = req.body
+        const userId = req.user!.id
+        if(!memberId){
+            return res.status(403).json({error: 'enter userId to add user to group'})
+        }
+        const findGroup = await Group.findOneAndUpdate({ $and: [{ groupAdmin: userId }, { id: groupId }] }, { $addToSet: { members: [memberId] } }, { new: true })
         if (!findGroup) {
             return res.status(404).json({ message: 'Not an admin' })
         }
-        return res.status(200).json({message:'user added successfully', })
+        return res.status(200).json({ message: 'user added successfully', group: findGroup })
     } catch (error: any) {
-
+        return res.status(403).json({ error: error.message })
     }
 }
 

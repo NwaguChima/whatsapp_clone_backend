@@ -1,6 +1,7 @@
 import express from 'express';
 import app from '../app';
-import { createGroup, getAllGroups } from '../controllers/groupController';
+import { createGroup, getAllGroups, addOthers } from '../controllers/groupController';
+import { protect } from '../controllers/verifyEmail'
 
 const router = express.Router();
 
@@ -9,11 +10,12 @@ const router = express.Router();
 
 // get route
 // router.route("/").get();
-router.get("/user", getAllGroups)
+router.get("/user",protect, getAllGroups)
 
 
 // posts route
-router.post("/create", createGroup);
+router.post("/create",protect, createGroup);
+router.post("/:groupId",protect, addOthers)
 
 
 
