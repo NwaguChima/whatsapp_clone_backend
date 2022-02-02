@@ -19,11 +19,12 @@ export interface IMessage extends mongoose.Document {
 
 const MessageSchema = new Schema({
   senderId: {
-    type: String,
-    required: [true, 'senderId is required'],
+    type: Schema.Types.ObjectId,
+    ref: 'UserAuth',
+    required: [true, 'senderid is required'],
   },
   chatId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     refPath: 'chatType',
     required: [true, 'chatId is required'],
   },
@@ -56,12 +57,21 @@ const MessageSchema = new Schema({
   deletedAt: {
     type: Date,
   },
-  toJSON: {
-    virtuals: true,
+  createdAt: {
+    type: Date,
+    default: Date.now()
   },
-  toObject: {
-    virtuals: true,
-  },
-});
+  updatedAt: {
+    type: Date,
+  }
+},
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    }
+  });
 
 export const Message = mongoose.model<IMessage>('Message', MessageSchema);

@@ -16,6 +16,7 @@ export interface userAuth extends mongoose.Document {
   confirmCode: string;
   avatar: string;
   avatarId: string;
+  favoriteFriends:string[];
 }
 
 const userAuthSchema = new Schema(
@@ -73,6 +74,12 @@ const userAuthSchema = new Schema(
       enum: ['Pending', 'Active'],
       default: 'Pending',
     },
+    favoriteFriends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref:'Friend',
+      }
+    ]
   },
   {
     toJSON: {

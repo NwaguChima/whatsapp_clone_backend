@@ -11,7 +11,7 @@ export interface Group {
     groupDescription: string;
     groupImage: string;
     groupImageId: string;
-    groupAdmin: string;
+    groupAdmin: string[];
 }
 export const validateLogin = (data: Login) => {
     const schema = Joi.object({
@@ -27,7 +27,7 @@ export const validateCreateGroup = (info: Group) => {
         groupDescription: Joi.string().required(),
         groupImage: Joi.string().required(),
         groupImageId: Joi.string().required(),
-        groupAdmin: Joi.string().required()
+        
     })
     return schema.validate(info)
 }

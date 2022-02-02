@@ -10,7 +10,12 @@ export interface IChat extends mongoose.Document {
 
 const PrivateChatSchema = new Schema({
   members: {
-    type: [String],
+    type: [
+      {
+        type:Schema.Types.ObjectId,
+        ref:'UserAuth'
+      }
+    ],
     required: [true, 'members is required'],
   },
   firstMesssageAt: {
@@ -18,7 +23,10 @@ const PrivateChatSchema = new Schema({
   },
   lastMessageAt: {
     type: Date,
-  },
+  }
+
+  
+},{
   toJSON: {
     virtuals: true,
   },
