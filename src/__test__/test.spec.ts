@@ -15,9 +15,6 @@ describe("LOGIN FEATURE", () => {
         avatar:"knyygyyygygy",
         phoneNumber: "08189441180"
       }
-        
-        
-
 
     test("should validate wrong data input", async () => {
         const response = await request(app).post('/api/v1/user/login').send(mockData1)
