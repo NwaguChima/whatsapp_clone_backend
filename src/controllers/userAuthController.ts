@@ -156,10 +156,10 @@ export const otherUserProfile = async (req: Request, res: Response) => {
         message: 'User does not exist',
       });
     // get the user and return required data if the user exist
-    const { firstName, lastName, avatar } = otherUser;
+    const { firstName, lastName, avatar, about,email } = otherUser;
     res.status(200).json({
       status: 'success',
-      data: { Name: `${firstName} ${lastName}`, Image: avatar },
+      data: { Name: `${firstName} ${lastName}`, Image: avatar, about, email },
     });
   } catch (error: any) {
     console.log(error.message);
