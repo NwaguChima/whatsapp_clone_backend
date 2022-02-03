@@ -8,7 +8,7 @@ export async function getMessages(req: Request, res: Response) {
     const messages = await Message.find({ chatId });
     res.status(200).json({ data: messages.length, messages });
   } catch (error) {
-    res.status(404).json({ error: 'Unable to get group messages' });
+    res.status(404).json({ error: 'Unable to get messages' });
   }
 }
 

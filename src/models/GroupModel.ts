@@ -9,7 +9,7 @@ export interface IGroup extends mongoose.Document {
   groupDescription: string;
   groupImage: string;
   groupImageId: string;
-  groupAdmin: string;
+  groupAdmins: string;
   slug: string;
   createdAt: Date;
   groupId: string;
@@ -44,7 +44,7 @@ const GroupSchema = new Schema(
     groupImageId: {
       type: String,
     },
-    groupAdmin: {
+    groupAdmins: {
       type: [
         {
           type: Schema.Types.ObjectId,
@@ -54,7 +54,6 @@ const GroupSchema = new Schema(
     },
     slug: {
       type: String,
-      required: [true, 'slug is required'],
     },
     createdAt: {
       type: Date,
