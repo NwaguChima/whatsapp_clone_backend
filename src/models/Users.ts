@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { SchemaTypes } from 'mongoose';
 import validator from 'validator';
 
 const Schema = mongoose.Schema;

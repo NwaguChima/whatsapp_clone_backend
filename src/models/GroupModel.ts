@@ -3,14 +3,14 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export interface IGroup extends mongoose.Document {
-  createdBy: string;
-  members: string[];
-  groupName: string;
-  groupDescription: string;
-  groupImage: string;
-  groupImageId: string;
-  groupAdmins: string;
-  slug: string;
+  createdBy:string;
+  members:string[];
+  groupName:string;
+  groupDescription:string;
+  groupImage:string;
+  groupImageId:string;
+  groupAdmins:string[];
+  slug:string;
   createdAt: Date;
   groupId: string;
 }
