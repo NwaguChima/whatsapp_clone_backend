@@ -9,7 +9,7 @@ export interface IGroup extends mongoose.Document {
   groupDescription: string;
   groupImage: string;
   groupImageId: string;
-  groupAdmin: string[];
+  groupAdmins: string[];
   groupId: string;
   slug: string;
   createdAt: Date;

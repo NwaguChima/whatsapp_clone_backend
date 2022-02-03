@@ -1,35 +1,32 @@
+import {Friend} from '../models/userFriendModel';
 // import Group Models
 import {Response } from 'express';
-import { Group } from '../models/GroupModel';
 import { CustomRequest } from '../utils/custom';
 
-const cloudinary = require('../cloudinary');
+// const createGroup = async (req: CustomRequest, res: Response) => {
+//   try {
+//     const { _id } = req.user;
+//     const group = new Group({
+//       createdBy: _id,
+//       groupName: req.body.name,
+//       members: [_id],
+//       groupDescription: req.body.groupDescription,
+//       groupImage: req.body.avatar,
+//       groupImageId: req.body.avatarId,
+//       groupAdmins: [_id],
+//     });
+//     await group.save();
+//     res.status(201).json({
+//       message: 'success',
+//       data: group,
+//     });
+//   } catch (err: any) {
+//     console.log(err);
+//     res.status(500).json({ success: false, error: err.message });
+//   }
+// };
 
-
-const createGroup = async (req: CustomRequest, res: Response) => {
-  try {
-    const { _id } = req.user;
-    const group = new Group({
-      createdBy: _id,
-      groupName: req.body.name,
-      members: [_id],
-      groupDescription: req.body.groupDescription,
-      groupImage: req.body.avatar,
-      groupImageId: req.body.avatarId,
-      groupAdmins: [_id],
-    });
-    await group.save();
-    res.status(201).json({
-      message: 'success',
-      data: group,
-    });
-  } catch (err: any) {
-    console.log(err);
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
-
-const getGroup = async (req: CustomRequest, res: Response) => {
+const getFriend = async (req: CustomRequest, res: Response) => {
   try {
     const { _id } = req.user;
 
