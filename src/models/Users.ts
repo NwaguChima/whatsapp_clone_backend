@@ -77,8 +77,12 @@ const userAuthSchema = new Schema(
       default: 'Pending',
     },
     favoriteFriends: {
-      type: Schema.Types.ObjectId,
-      ref: 'Friend',
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Friend',
+        },
+      ],
     },
   },
   {

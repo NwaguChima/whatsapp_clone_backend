@@ -17,7 +17,7 @@ const PrivateChatSchema = new Schema(
           ref: 'UserAuth',
         },
       ],
-      required: [true, 'members is required'],
+      required: [true, 'members are required'],
     },
 
     firstMesssageAt: {

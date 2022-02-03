@@ -23,6 +23,7 @@
     "@types/express-session": "^1.17.4",
     "@types/gravatar": "^1.8.3",
     "@types/http-errors": "^1.8.2",
+    "@types/jest": "^27.4.0",
     "@types/jsonwebtoken": "^8.5.7",
     "@types/lodash": "^4.14.178",
     "@types/mongoose": "^5.11.97",
@@ -76,7 +77,10 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
+<<<<<<< HEAD
+=======
     "socket.io": "^4.4.1",
+>>>>>>> abe591729878c0323f49c61a9d6cd2dd758882ea
     "supertest": "^6.2.1",
     "validator": "^13.7.0"
   }
