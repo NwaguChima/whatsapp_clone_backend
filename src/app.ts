@@ -5,6 +5,8 @@ import path from 'path';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 
+import bodyParser from 'body-parser';
+
 import { setupGoogle } from './passport/passport-ggle';
 import authRoutes from './routes/authRouteGgle';
 import passport from 'passport';
@@ -26,6 +28,9 @@ dotenv.config();
 const app = express();
 
 //middlewares
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.json({ limit: '500mb' }));
 app.use(session({ secret: process.env.SESSION_SECRET as string }));
 app.use(passport.initialize());

@@ -34,6 +34,7 @@ const userAuthSchema = new Schema(
       type: String,
       required: true,
     },
+
     avatar: {
       type: String,
     },
@@ -76,6 +77,7 @@ const userAuthSchema = new Schema(
       enum: ['Pending', 'Active'],
       default: 'Pending',
     },
+    //Added Favorite Friends Array
     favoriteFriends: {
       type: [
         {

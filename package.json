@@ -55,6 +55,9 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.1",
     "@types/connect-flash": "^0.0.37",
     "@types/crypto-js": "^4.1.0",
     "@types/dotenv": "^8.2.0",
@@ -63,8 +66,7 @@
     "@types/passport-google-oauth2": "^0.1.4",
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/typescript": "^2.0.0",
-    "bcrypt": "^5.0.1",
-    "bcryptjs": "^2.4.3",
+  
     "cloudinary": "^1.28.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
