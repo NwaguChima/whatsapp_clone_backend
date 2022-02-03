@@ -9,20 +9,23 @@ export interface IGroup extends mongoose.Document {
   groupDescription:string;
   groupImage:string;
   groupImageId:string;
-  groupAdmin:string;
+  groupAdmins:string[];
   slug:string;
   createdAt: Date;
+  groupId: string;
 }
 
 const GroupSchema = new Schema({
   createdBy: {
-    type: String,
-    required: [true, 'createdBy is required'],
+    type: Schema.Types.ObjectId,
+    ref: 'UserAuth',
+    required: true,
   },
-  members: {
-    type: [String],
-    required: [true, 'members is required'],
-  },
+  members: [{
+    type: Schema.Types.ObjectId,
+    ref: 'UserAuth',
+    required: true,
+  }],
   groupName: {
     type: String,
     required: [true, 'groupName is required'],
@@ -36,25 +39,33 @@ const GroupSchema = new Schema({
   groupImageId: {
     type: String,
   },
-  groupAdmin: {
-    type: String,
-    required: [true, 'groupAdmin is required'],
-  },
+  groupAdmins: [{
+    type: Schema.Types.ObjectId,
+    ref: 'UserAuth',
+  }],
   slug: {
     type: String,
-    required: [true, 'slug is required'],
+    
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  groupId: {
+    type: String,
+  },
 
+},
+{
   toJSON: {
     virtuals: true,
   },
   toObject: {
     virtuals: true,
   },
-});
+
+},
+
+);
 
 export const Group = mongoose.model<IGroup>('Group', GroupSchema);

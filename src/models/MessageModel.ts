@@ -8,10 +8,8 @@ export interface IMessage extends mongoose.Document {
   chatType: string;
   text: string;
   mediaType: string;
-  media: {
-    type: string;
-    url: string;
-  };
+  mediaUrl: string;
+  mediaId: string;
   deletedAt: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -19,11 +17,12 @@ export interface IMessage extends mongoose.Document {
 
 const MessageSchema = new Schema({
   senderId: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'UserAuth',
     required: [true, 'senderId is required'],
   },
   chatId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     refPath: 'chatType',
     required: [true, 'chatId is required'],
   },
@@ -31,37 +30,44 @@ const MessageSchema = new Schema({
     type: String,
     enum: {
       values: ['Group', 'PrivateChat'],
-      message: 'chatType must be either group or private',
+      message: 'chatType must be either Group or PrivateChat',
     },
     required: [true, 'chatType is required'],
   },
   text: {
     type: String,
-    required: [true, 'text is required'],
   },
   mediaType: {
     type: String,
-    required: [true, 'mediaType is required'],
     enum: {
       values: ['image', 'video', 'audio', 'document'],
       message: 'mediaType must be either image, video,document or audio',
     },
   },
-  media: {
-    type: {
-      type: String,
-      url: String,
-    },
-  },
+  mediaUrl: String,
+  mediaId: String,
   deletedAt: {
     type: Date,
   },
-  toJSON: {
-    virtuals: true,
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
-  toObject: {
-    virtuals: true,
-  },
-});
+
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  }
+},
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+  }
+  
+  );
 
 export const Message = mongoose.model<IMessage>('Message', MessageSchema);

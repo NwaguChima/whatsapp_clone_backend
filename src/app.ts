@@ -75,9 +75,9 @@ app.use('/api/v1/user', emailRoutes);
 
 app.use("api/v1/messages", messageRoutes);
 
-app.use("/api/v1/chats",privateChatRoutes)
+app.use("/api/v1/chats", privateChatRoutes)
 
-app.use('/api/v1/groups',groupRoutes);
+app.use('/api/v1/groups', groupRoutes);
 // ERROR HANDLERS =========
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
