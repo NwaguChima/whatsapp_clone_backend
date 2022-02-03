@@ -15,59 +15,53 @@ export interface IMessage extends mongoose.Document {
   updatedAt: Date;
 }
 
-const MessageSchema = new Schema({
-  senderId: {
-    type: Schema.Types.ObjectId,
-    ref: 'UserAuth',
-    required: [true, 'senderId is required'],
-  },
-  chatId: {
-    type: Schema.Types.ObjectId,
-    refPath: 'chatType',
-    required: [true, 'chatId is required'],
-  },
-  chatType: {
-    type: String,
-    enum: {
-      values: ['Group', 'PrivateChat'],
-      message: 'chatType must be either Group or PrivateChat',
-    },
-    required: [true, 'chatType is required'],
-  },
-  text: {
-    type: String,
-  },
-  mediaType: {
-    type: String,
-    enum: {
-      values: ['image', 'video', 'audio', 'document'],
-      message: 'mediaType must be either image, video,document or audio',
-    },
-  },
-  mediaUrl: String,
-  mediaId: String,
-  deletedAt: {
-    type: Date,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  }
-},
+const MessageSchema = new Schema(
   {
-    toJSON: {
-      virtuals: true,
+    senderId: {
+      type: Schema.Types.ObjectId,
+      ref: 'UserAuth',
+      required: [true, 'senderId is required'],
     },
-    toObject: {
-      virtuals: true,
+    chatId: {
+      type: Schema.Types.ObjectId,
+      refPath: 'chatType',
+      required: [true, 'chatId is required'],
     },
+    chatType: {
+      type: String,
+      enum: {
+        values: ['Group', 'PrivateChat'],
+        message: 'chatType must be either Group or PrivateChat',
+      },
+      required: [true, 'chatType is required'],
+    },
+    text: {
+      type: String,
+    },
+    mediaType: {
+      type: String,
+      enum: {
+        values: ['image', 'video', 'audio', 'document'],
+        message: 'mediaType must be either image, video,document or audio',
+      },
+    },
+    mediaUrl: String,
+    mediaId: String,
+    deletedAt: {
+      type: Date,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    updatedAt: {
+      type: Date,
+    },
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
-  
-  );
+);
 
 export const Message = mongoose.model<IMessage>('Message', MessageSchema);

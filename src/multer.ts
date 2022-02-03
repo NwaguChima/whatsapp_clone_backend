@@ -27,18 +27,22 @@
 //   },
 // });
 
-const multer = require("multer");
-const path = require("path");
+const multer = require('multer');
+const path = require('path');
 
 // multer config
 module.exports = multer({
-  storage:multer.diskStorage({}),
+  storage: multer.diskStorage({}),
   // filter file just incase users try to upload other files
-  fileFilter:(req:Request,file:any,cb: (arg0: Error | null, arg1: boolean) => void)=>{
+  fileFilter: (
+    req: Request,
+    file: any,
+    cb: (arg0: Error | null, arg1: boolean) => void
+  ) => {
     let ext = path.extname(file.originalname);
-    if(ext !==".jpg" && ext !==".png" && ext !==".jpeg"){
-      return cb(new Error("Only images are allowed"),false);
+    if (ext !== '.jpg' && ext !== '.png' && ext !== '.jpeg') {
+      return cb(new Error('Only images are allowed'), false);
     }
-    cb(null,true);
-  }
-})
+    cb(null, true);
+  },
+});

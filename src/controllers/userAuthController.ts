@@ -5,7 +5,6 @@ import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 
 import { UserAuth } from '../models/Users';
-
 import { userRegisterInput } from '../validation/signup';
 
 export const signup = async (
@@ -103,7 +102,6 @@ export const signup = async (
 
                 console.log('Message sent: %s', info.messageId);
               });
-
 
               newUser
                 .save()

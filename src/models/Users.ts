@@ -17,7 +17,7 @@ export interface userAuth extends mongoose.Document {
   avatar: string;
   avatarId: string;
   about: string;
-  favoriteFriends: string[]
+  favoriteFriends: string[];
 }
 
 const userAuthSchema = new Schema(
@@ -40,9 +40,7 @@ const userAuthSchema = new Schema(
     avatarId: {
       type: String,
     },
-    about: {
-      type: String
-    },
+    about: String,
     email: {
       type: String,
       unique: true,
@@ -78,11 +76,14 @@ const userAuthSchema = new Schema(
       enum: ['Pending', 'Active'],
       default: 'Pending',
     },
-    favoriteFriends: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Friend'
-
-    }]
+    favoriteFriends: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Friend',
+        },
+      ],
+    },
   },
   {
     toJSON: {
