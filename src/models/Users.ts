@@ -80,7 +80,7 @@ const userAuthSchema = new Schema(
       type: [
         {
           type: Schema.Types.ObjectId,
-          ref: 'Friend',
+          ref: 'UserAuth',
         },
       ],
     },
