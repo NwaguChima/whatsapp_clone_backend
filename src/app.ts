@@ -19,6 +19,7 @@ import UserRouter from './routes/userRoute';
 import messageRoutes from './routes/messageRoutes';
 import privateChatRoutes from './routes/privateChatRoute';
 import groupRoutes from './routes/groupRoutes';
+import friendRoutes from './routes/friendRoutes';
 // routers
 
 // const app: Application = express();
@@ -75,6 +76,8 @@ app.use('api/v1/messages', messageRoutes);
 app.use('/api/v1/chats', privateChatRoutes);
 
 app.use('/api/v1/groups', groupRoutes);
+
+app.use('/api/v1/friends', friendRoutes);
 // ERROR HANDLERS =========
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
