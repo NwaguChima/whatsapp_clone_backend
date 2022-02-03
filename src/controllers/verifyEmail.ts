@@ -18,6 +18,7 @@ export const verifyEmail = async (
     if (!user) {
       return res.status(404).json({ message: 'user not found' });
     }
+
     user.status = 'Active';
     await user.save((err: any) => {
       if (err) {
@@ -58,9 +59,8 @@ export const loginUser = async (
         });
       const user = { email: req.params.email };
 
-
       const accessToken = jwt.sign(
-        {id: findUser.id},
+        { id: findUser.id },
         process.env.ACCESS_TOKEN_SECRET as Secret
       );
       req.user! = findUser;

@@ -1,7 +1,6 @@
+import { Request } from 'express';
 
-import {Request} from "express";
-
-import {userAuthModel} from "./models/Users"
-export interface CustomRequest extends Request{
-  user?:userAuthModel
+import { userAuthModel } from './models/Users';
+export interface CustomRequest extends Request {
+  user?: userAuthModel;
 }
