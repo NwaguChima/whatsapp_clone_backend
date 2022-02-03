@@ -8,24 +8,33 @@ export interface IChat extends mongoose.Document {
   lastMessageAt: Date;
 }
 
-const PrivateChatSchema = new Schema({
-  members: {
-    type: [String],
-    required: [true, 'members is required'],
+const PrivateChatSchema = new Schema(
+  {
+    members: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'UserAuth',
+        },
+      ],
+      required: [true, 'members is required'],
+    },
+
+    firstMesssageAt: {
+      type: Date,
+    },
+    lastMessageAt: {
+      type: Date,
+    },
   },
-  firstMesssageAt: {
-    type: Date,
-  },
-  lastMessageAt: {
-    type: Date,
-  },
-  toJSON: {
-    virtuals: true,
-  },
-  toObject: {
-    virtuals: true,
-  },
-});
+
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+// PrivateChatSchema.index({ members: 1 }, { unique: true });
 
 export const PrivateChat = mongoose.model<IChat>(
   'PrivateChat',

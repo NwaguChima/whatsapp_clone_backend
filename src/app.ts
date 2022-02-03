@@ -16,27 +16,33 @@ import { mongoDBConnect, mongoMockConnect } from './database/database';
 
 // ROUTES IMPORT
 import UserRouter from './routes/userRoute';
-import messageRoutes from "./routes/messageRoutes"
-import privateChatRoutes from "./routes/privateChatRoute"
-import groupRoutes from "./routes/groupRoutes"
+import messageRoutes from './routes/messageRoutes';
+import privateChatRoutes from './routes/privateChatRoute';
+import groupRoutes from './routes/groupRoutes';
 // routers
 
 // const app: Application = express();
 dotenv.config();
 const app = express();
 
-
-
 //middlewares
-app.use(express.json());
+app.use(express.json({ limit: '500mb' }));
 app.use(session({ secret: process.env.SESSION_SECRET as string }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ limit: '500mb', extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+const publicPath = path.join(__dirname + '../public');
+// app.use(express.static(publicPath));
+app.use(express.static('public'));
+
+// to test message sharing
+app.get('/', (req, res) => {
+  res.sendFile(publicPath);
+});
 
 setupGoogle();
 app.use('/', authRoutes);
@@ -48,7 +54,6 @@ app.use('/', authRoutes);
 //     maxAge: 24 * 60 * 60 * 100,
 //   })
 // );
-
 
 //MongoDB connection
 if (process.env.NODE_ENV === 'test') {
@@ -73,11 +78,11 @@ app.use('/api/v1/users', UserRouter);
 //User auth routes
 app.use('/api/v1/user', emailRoutes);
 
-app.use("api/v1/messages", messageRoutes);
+app.use('api/v1/messages', messageRoutes);
 
-app.use("/api/v1/chats",privateChatRoutes)
+app.use('/api/v1/chats', privateChatRoutes);
 
-app.use('/api/v1/groups',groupRoutes);
+app.use('/api/v1/groups', groupRoutes);
 // ERROR HANDLERS =========
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
