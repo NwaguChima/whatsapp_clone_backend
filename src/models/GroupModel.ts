@@ -59,17 +59,11 @@ const GroupSchema = new Schema(
       type: Date,
       default: Date.now,
     },
-    groupId: {
-      type: String,
-    },
+    groupId: String,
   },
   {
-    toJSON: {
-      virtuals: true,
-    },
-    toObject: {
-      virtuals: true,
-    },
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 

@@ -38,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
     "bcrypt": "^5.0.1",
+    "chalk": "4",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
@@ -76,6 +77,10 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
+<<<<<<< HEAD
+=======
+    "socket.io": "^4.4.1",
+>>>>>>> abe591729878c0323f49c61a9d6cd2dd758882ea
     "supertest": "^6.2.1",
     "validator": "^13.7.0"
   }

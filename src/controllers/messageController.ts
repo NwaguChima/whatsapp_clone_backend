@@ -1,5 +1,11 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { Message } from '../models/MessageModel';
+import Chalk from 'chalk';
+import { CustomRequest } from '../utils/custom';
+import cloudinary from '../utils/cloud_data/cloudinary-main';
+
+const red = Chalk.magenta.inverse.italic;
+const green = Chalk.green.inverse.italic;
 
 /* Route for getting all the messages for a private chat */
 export async function getMessages(req: Request, res: Response) {
@@ -12,29 +18,99 @@ export async function getMessages(req: Request, res: Response) {
   }
 }
 
-/*
-export async function getMessages(req: Request, res: Response) {
-  try {
-    const messages = await Message.find({ chatId: req.params.chatId });
-    res.status(200).json({ messages });
-  } catch (error) {
-    res.status(404).json({ error: 'Unable to get group messages' });
-  }
-}
 
- Route for getting all the messages for a specific chat-room
- specified by the query parameter room 
-export async function getGroupMessages(req: Request, res: Response) {
+export const getMediaType = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const media = req.body.mediaType;
+  console.log(red(media));
+  res.status(200).json({ data: req.body });
+  return;
+  // next();
+};
+
+export const createMessages = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    let id = req.params.groupId;
-    const chatGroup = Message.find({ id, chatType: 'Group' });
-    if (!chatGroup) {
-      return res.status(404).json({ message: 'Group does not exist!' });
+    // console.log(green(req.file!.path));
+    // const result = await cloudinary.uploader.upload(req.file!.path, {
+    //   upload_preset: 'whatsapp-clone',
+    // });
+
+    // if (req.body.mediaType === 'video') {
+    //   const result = await cloudinary.uploader.upload(path, {
+    //     resource_type: 'video',
+    //     chunk_size: 6000000,
+    //     eager: [
+    //       {
+    //         width: 300,
+    //         height: 300,
+    //         crop: 'pad',
+    //         audio_codec: 'none',
+    //       },
+    //       {
+    //         width: 160,
+    //         height: 100,
+    //         crop: 'crop',
+    //         gravity: 'south',
+    //         audio_codec: 'none',
+    //       },
+    //     ],
+    //   });
+    // } else if (req.body.mediaType === 'video') {
+    //   const result = await cloudinary.uploader.upload(path, {
+    //     resource_type: 'raw',
+    //   });
+    // } else {
+    //   const result = await cloudinary.uploader.upload(req.file!.path, {
+    //     resource_type: 'raw',
+    //   });
+    // }
+
+    const result = await cloudinary.uploader.upload(req.file!.path, {
+      resource_type: 'raw',
+    });
+    // const result = await cloudinary.uploader.upload(req.file!.path, {
+    //   chunk_size: 6000000,
+    //   eager: [
+    //     {
+    //       width: 300,
+    //       height: 300,
+    //       crop: 'pad',
+    //       audio_codec: 'none',
+    //     },
+    //     {
+    //       width: 160,
+    //       height: 100,
+    //       crop: 'crop',
+    //       gravity: 'south',
+    //       audio_codec: 'none',
+    //     },
+    //   ],
+    // });
+
+    if (!req.body.chatId) req.body.chatId = req.params.chatId;
+    if (!req.body.senderId) req.body.senderId = req.user.id;
+
+    if (!req.body.text && !req.body.mediaType) {
+      throw new Error('Message must have a content');
     }
-    res.status(200).json({ data: chatGroup });
-  } catch (error) {
-    res.status(500).json({ error: 'Not available' });
-  }
-}
+    const message = {
+      ...req.body,
+      mediaUrl: result.secure_url,
+      mediaId: result.public_id,
+    };
 
-*/
+    const newMessage = await Message.create(message);
+
+    res.status(201).json({ status: 'success', data: newMessage });
+  } catch (err: any) {
+    res.status(403).json({ status: 'fail', error: err.message });
+    console.log(red(err));
+  }
+};

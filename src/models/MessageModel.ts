@@ -22,26 +22,22 @@ const MessageSchema = new Schema(
       ref: 'UserAuth',
       required: [true, 'senderId is required'],
     },
-
     chatId: {
       type: Schema.Types.ObjectId,
       refPath: 'chatType',
       required: [true, 'chatId is required'],
     },
-
     chatType: {
       type: String,
       enum: {
         values: ['Group', 'PrivateChat'],
-        message: 'chatType must be either Group or privateChat',
+        message: 'chatType must be either Group or PrivateChat',
       },
       required: [true, 'chatType is required'],
     },
-
     text: {
       type: String,
     },
-
     mediaType: {
       type: String,
       enum: {
@@ -49,31 +45,22 @@ const MessageSchema = new Schema(
         message: 'mediaType must be either image, video,document or audio',
       },
     },
-
     mediaUrl: String,
     mediaId: String,
-
     deletedAt: {
       type: Date,
     },
-
     createdAt: {
       type: Date,
       default: Date.now(),
     },
-
     updatedAt: {
       type: Date,
     },
   },
-
   {
-    toJSON: {
-      virtuals: true,
-    },
-    toObject: {
-      virtuals: true,
-    },
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 

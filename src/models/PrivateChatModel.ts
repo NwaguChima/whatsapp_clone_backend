@@ -29,14 +29,12 @@ const PrivateChatSchema = new Schema(
   },
 
   {
-    toJSON: {
-      virtuals: true,
-    },
-    toObject: {
-      virtuals: true,
-    },
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+// PrivateChatSchema.index({ members: 1 }, { unique: true });
 
 export const PrivateChat = mongoose.model<IChat>(
   'PrivateChat',

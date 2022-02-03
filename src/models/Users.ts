@@ -40,9 +40,7 @@ const userAuthSchema = new Schema(
     avatarId: {
       type: String,
     },
-    about: {
-      type: String,
-    },
+    about: String,
     email: {
       type: String,
       unique: true,
