@@ -32,31 +32,25 @@ const MessageSchema = new Schema({
     type: String,
     enum: {
       values: ['Group', 'PrivateChat'],
-      message: 'chatType must be either group or private',
+      message: 'chatType must be either Group or PrivateChat',
     },
     required: [true, 'chatType is required'],
   },
   text: {
     type: String,
-    required: [true, 'text is required'],
   },
   mediaType: {
     type: String,
-    required: [true, 'mediaType is required'],
     enum: {
       values: ['image', 'video', 'audio', 'document'],
       message: 'mediaType must be either image, video,document or audio',
     },
   },
-  media: {
-    type: {
-      type: String,
-      url: String,
-    },
-  },
+  mediaUrl: String,
   deletedAt: {
     type: Date,
   },
+  mediaId:String,
   createdAt: {
     type: Date,
     default: Date.now()

@@ -23,10 +23,10 @@ export const createGroup = async (
         const userStr = req.user!.id.toString()
         console.log(userStr)
         // const admin = await Group.find({ id: userId }).populate('id')
-        const groupAdmin = [userId]
+        const groupAdmins = [userId]
         const id = nanoid()
         const slug = `http://${req.headers.host}/api/v1/groups/${id}`
-        const groupInfo = { id: id, createdBy: userId, members: [userStr], slug, groupAdmin, ...req.body }
+        const groupInfo = { groupId: id, createdBy: userId, members: [userStr], slug, groupAdmins, ...req.body }
         const group = await Group.create({ ...groupInfo })
         console.log(group)
         return res.status(201).json({ message: "successful", link: slug })

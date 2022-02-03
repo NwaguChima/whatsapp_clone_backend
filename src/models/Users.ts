@@ -16,6 +16,7 @@ export interface userAuth extends mongoose.Document {
   confirmCode: string;
   avatar: string;
   avatarId: string;
+  about:string;
   favoriteFriends:string[];
 }
 
@@ -38,6 +39,9 @@ const userAuthSchema = new Schema(
     },
     avatarId: {
       type: String,
+    },
+    about:{
+      type:String
     },
     email: {
       type: String,
