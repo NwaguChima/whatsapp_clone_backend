@@ -1,7 +1,8 @@
 import express from 'express';
 import app from '../app';
+import { getGroupInfo } from '../controllers/userAuthController'
+import { protect } from '../controllers/verifyEmail'; 
 import { createGroup, getAllGroups, addOthers } from '../controllers/groupController';
-import { protect } from '../controllers/verifyEmail'
 import messageRoutes from './messageRoutes'
 import { Message } from '../models/MessageModel';
 
@@ -17,6 +18,10 @@ router.get("/user",protect, getAllGroups)
 // posts route
 router.post("/create",protect, createGroup);
 router.post("/:groupId",protect, addOthers)
+
+//get group imfo
+
+router.get('/:groupId',protect, getGroupInfo)
 
 
 

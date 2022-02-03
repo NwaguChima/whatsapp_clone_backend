@@ -13,6 +13,8 @@ export const getAllFriends = async (
 ) => {
   try {
 
+    console.log("GOT HERE!!!");
+
     const userLogin = req.user!.id;
 
 
@@ -70,3 +72,5 @@ export const addFriends = async (
     res.status(500).json({ error });
   }
 };
+
+

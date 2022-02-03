@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { UserAuth } from './Users';
 
 const Schema = mongoose.Schema;
 
