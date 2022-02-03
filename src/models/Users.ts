@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { SchemaTypes } from 'mongoose';
 import validator from 'validator';
 
 const Schema = mongoose.Schema;
@@ -41,11 +41,7 @@ const userAuthSchema = new Schema(
     avatarId: {
       type: String,
     },
-
-    about: {
-      type: String,
-    },
-
+    about: String,
     email: {
       type: String,
       unique: true,
@@ -87,9 +83,9 @@ const userAuthSchema = new Schema(
         {
           type: Schema.Types.ObjectId,
           ref: 'UserAuth',
-        }
-      ]
-    }
+        },
+      ],
+    },
   },
   {
     toJSON: {
