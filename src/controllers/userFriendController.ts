@@ -89,7 +89,7 @@ export const addFavoriteFriends = async (
           message: 'This friend already exists as a favorite friend',
         });
       }
-      user!.favoriteFriends.push(userFriend[0].friendId);
+      user!.favoriteFriends.push(friendId);
 
       await user!.save();
 
