@@ -1,7 +1,6 @@
 import { UserAuth } from '../models/Users';
 import { Router, Request, Response, NextFunction } from 'express';
 
-
 const cloudinary = require('../cloudinary');
 import { CustomRequest } from '../utils/custom';
 interface MulterFile {
@@ -33,6 +32,7 @@ export const updateUser = async (
         ? req.body.phoneNumber
         : req.user!.phoneNumber,
     };
+
     const updatedUser = await UserAuth.findByIdAndUpdate(
       req.user!.id,
       updateData,
