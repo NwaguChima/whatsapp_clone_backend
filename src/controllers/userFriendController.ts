@@ -13,6 +13,8 @@ export const getAllFriends = async (
 ) => {
   try {
 
+    console.log("GOT HERE!!!");
+
     const userLogin = req.user!.id;
 
 

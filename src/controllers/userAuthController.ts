@@ -50,6 +50,7 @@ export const signup = async (
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
+            about: req.body.about,
             password: req.body.password,
             phoneNumber: req.body.phoneNumber,
             avatar,
@@ -138,25 +139,25 @@ export const signup = async (
   }
 };
 
-
-
 // Get basic information about other user
 
 export const otherUserProfile = async (req: Request, res: Response) => {
   try {
     // get the user id
-  
-    const {otherUserId} = req.params
-    const otherUser = await UserAuth.findById({ _id: otherUserId });
+
+    console.log(req.params);
+
+    const { userId } = req.params;
+    const otherUser = await UserAuth.findById(userId);
     // check if the user exist, if not return an error message
     if (!otherUser)
       return res.status(404).json({
         status: 'fail',
-        message: 'User does not exist' 
-      })
-       // get the user and return required data if the user exist
-      const { firstName, lastName, avatar } = otherUser;
-      res.status(200).json({
+        message: 'User does not exist',
+      });
+    // get the user and return required data if the user exist
+    const { firstName, lastName, avatar } = otherUser;
+    res.status(200).json({
       status: 'success',
       data: { Name: `${firstName} ${lastName}`, Image: avatar },
     });
@@ -165,20 +166,19 @@ export const otherUserProfile = async (req: Request, res: Response) => {
   }
 };
 
-
 // Get a particular group info
 export const getGroupInfo = async (req: Request, res: Response) => {
   try {
     // get the group's id and check if the group exist exist
-    const { groupId } = req.params
+    const { groupId } = req.params;
     const group = await Group.findById({ _id: groupId });
     // if group does not exist, return an error message
     if (!group)
       return res.status(404).json({
         status: 'fail',
-        message: 'Group does not exist'
-      })
-      // get the group and return required data if the group exist
+        message: 'Group does not exist',
+      });
+    // get the group and return required data if the group exist
     const { groupName, groupImage, groupDescription, members, slug } = group;
     res.status(200).json({
       status: 'success',

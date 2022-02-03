@@ -65,9 +65,10 @@ if (process.env.NODE_ENV === 'test') {
 
 // ROUTES =========
 // Routers upon which applications will run. To be connected to the routes files.
-app.use('/api/v1/users', authRouteFB);
 
 // Routers upon which applications will run. To be connected to the routes files.
+app.use('/api/v1/users', authRouteFB);
+
 app.use('/api/v1/users', UserRouter);
 
 //User auth routes

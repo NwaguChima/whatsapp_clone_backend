@@ -14,9 +14,12 @@ const upload = require('../multer');
 const router = express.Router();
 //reset
 
+// users/friends
+
 router.get('/friends', protect, getAllFriends);
 
-router.get('/:userId',protect, otherUserProfile)
+// users/profile/jlsl
+router.get('/profile/:userId',protect, otherUserProfile)
 
 router.post('/signup', signup);
 router.post('/friends', protect, addFriends);
