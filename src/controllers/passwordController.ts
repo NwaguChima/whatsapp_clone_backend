@@ -105,7 +105,6 @@ export async function resetPassword(
 
     const user = await UserAuth.findOne({ _id: userId });
 
-
     if (!user) {
       return res.status(404).json('invalid link or expired');
     }
