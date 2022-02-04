@@ -1,4 +1,4 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import { io } from './socket.io/socket';
 import app from './app';
 import http from 'http';
 
@@ -23,7 +23,7 @@ const port = normalizePort(process.env.PORT || '3050');
 app.set('port', port);
 
 export const server = http.createServer(app);
-
+io.attach(server);
 server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

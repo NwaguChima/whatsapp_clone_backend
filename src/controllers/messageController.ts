@@ -7,6 +7,8 @@ import cloudinary from '../utils/cloud_data/cloudinary-main';
 const red = Chalk.magenta.inverse.italic;
 const green = Chalk.green.inverse.italic;
 
+let message = {};
+
 export const getMediaType = async (
   req: Request,
   res: Response,
@@ -88,11 +90,17 @@ export const createMessages = async (
     if (!req.body.text && !req.body.mediaType) {
       throw new Error('Message must have a content');
     }
-    const message = {
-      ...req.body,
-      mediaUrl: result.secure_url,
-      mediaId: result.public_id,
-    };
+    if (result.secure_url && result.secure_id) {
+      message = {
+        ...req.body,
+        mediaUrl: result.secure_url,
+        mediaId: result.public_id,
+      };
+    } else {
+      message = {
+        ...req.body,
+      };
+    }
 
     const newMessage = await Message.create(message);
 

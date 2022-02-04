@@ -44,6 +44,10 @@ app.get('/', (req, res) => {
   res.sendFile(publicPath);
 });
 
+// app.get('/homepage', (req, res) => {
+//   res.status(200).json({ msg: 'Hello broooo' });
+// });
+
 setupGoogle();
 app.use('/', authRoutes);
 // Cookie session middleware to help remember user sessions.

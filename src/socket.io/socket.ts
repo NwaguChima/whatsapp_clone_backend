@@ -1,8 +1,8 @@
 import { Server } from 'socket.io';
 import { server } from '../server';
 
-const io = new Server(server);
+export const io = new Server(server);
 
 io.on('connection', () => {
-  console.log('New webSocket Connection...');
+  console.log('New webSocket Connection.......');
 });
