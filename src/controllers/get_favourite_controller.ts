@@ -8,25 +8,21 @@ const getFavouriteFriends = async (req: CustomRequest, res: Response) => {
     const queryId = req.query.friendId;
     const { _id } = req.user;
     const userId = req.user.id;
+    console.log(req.user);
     // console.log(req.query);
     // let id = '61f966a8a9bfac9a30be797a';
-    let query = await UserAuth.find({ _id: userId });
-    let ids = query[0].favoriteFriends;
-    // find favourite friends of the user
-    let friends = await Friend.find({})
-      .populate('friendId')
-      .where('friendId')
-      .in(ids);
-
-    if (friends.length === 0) {
+    let favoriteFriends = await UserAuth.find({ id: userId }).populate(
+      'favoriteFriends'
+    );
+    if (favoriteFriends.length === 0) {
       res.status(200).json({
         message: 'No friends found',
       });
     } else {
       res.status(200).json({
         message: 'success',
-        length: friends.length,
-        data: friends,
+        length: favoriteFriends.length,
+        data: favoriteFriends,
       });
     }
   } catch (err: any) {

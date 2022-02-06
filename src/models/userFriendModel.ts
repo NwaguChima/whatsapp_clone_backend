@@ -23,10 +23,11 @@ const friendSchema = new mongoose.Schema(
 friendSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'friendId',
-    // select: 'email'
+    select:"-password -confirmCode -__v -isVerified",
   }).populate({
     path: 'userId',
-    select: 'email',
+    select: '-__v -confirmCode',
+    // select: 'email',
   });
   next();
 });

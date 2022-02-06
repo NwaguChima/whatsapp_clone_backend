@@ -1,7 +1,6 @@
 import { UserAuth } from '../models/Users';
 import { Router, Request, Response, NextFunction } from 'express';
 
-
 const cloudinary = require('../cloudinary');
 import { CustomRequest } from '../utils/custom';
 interface MulterFile {
@@ -18,14 +17,17 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   try {
-    const result = await cloudinary.uploader.upload(req.file!.path);
+    // const result = await cloudinary.uploader.upload(req.file!.path);
 
     // replace the old image with the new one and add it to the request body
-    req.body.avatar = result.url;
-    req.body.avatarId = result.public_id;
+    // req.body.avatar = result.url;
+    // req.body.avatarId = result.public_id;
     let updateData = {
       firstName: req.body.firstName ? req.body.firstName : req.user!.firstName,
       lastName: req.body.lastName ? req.body.lastName : req.user!.lastName,
+      favoriteFriends: req.body.favoriteFriends
+        ? req.body.favoriteFriends
+        : req.user!.favoriteFriends,
       avatar: req.body.avatar ? req.body.avatar : req.user!.avatar,
       avatarId: req.body.avatarId ? req.body.avatarId : req.user!.avatarId,
       email: req.body.email ? req.body.email : req.user!.email,
