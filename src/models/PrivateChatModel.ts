@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export interface IChat extends mongoose.Document {
+
   members: string[];
   firstMesssageAt: Date;
   lastMessageAt: Date;

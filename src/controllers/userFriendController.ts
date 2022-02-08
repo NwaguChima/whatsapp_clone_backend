@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Friend } from '../models/userFriendModel';
+import { Group } from '../models/GroupModel';
 import { UserAuth } from '../models/Users';
 import { CustomRequest } from '../utils/custom';
 import { ReqUser } from '../utils/customReq';
@@ -13,7 +14,8 @@ export const getAllFriends = async (
 ) => {
   try {
     const userLogin = req.user!.id;
-
+    console.log('in getAll friends');
+    console.log(req.user);
     const friends = await Friend.find({ users: userLogin });
 
     return res.status(200).json({
@@ -140,6 +142,45 @@ export const getFavoriteFriends = async (
   }
 };
 
+export const getFavouriteFriend = async (req: CustomRequest, res: Response) => {
+  try {
+    // const queryId = req.query.friendId;
+    const friendId = req.params.id;
+
+    const userId = req.user.id;
+
+    let userFriend = await Friend.find({ userId, friendId });
+    console.log(userFriend);
+    let favoriteFriends = await UserAuth.findById(userId).populate(
+      'favoriteFriends'
+    );
+    const user = await UserAuth.findById(userId);
+
+    if (userFriend.length > 0) {
+      if (!user!.favoriteFriends.includes(friendId)) {
+        return res.status(400).json({
+          message: 'This friend does not exist as a favorite friend',
+        });
+      }
+      const index = user!.favoriteFriends.indexOf(friendId);
+
+      res.status(200).json({
+        status: 'success',
+        data: {
+          friendId,
+        },
+      });
+    } else {
+      res.status(400).json({
+        message: 'friend not exist',
+      });
+    }
+  } catch (err: any) {
+    console.log(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
 // User remove from favorite friends array from Friends to UserAuth collection by id
 
 export const removeFavoriteFriends = async (
@@ -181,4 +222,3 @@ export const removeFavoriteFriends = async (
     res.status(500).json({ error: error.message });
   }
 };
-
