@@ -7,11 +7,12 @@ import {
 import { signup } from '../controllers/userAuthController';
 import {
   getAllFriends,
-  addFriends,
-  addFavoriteFriends,
+  addFriend,
+  getFriend,
+  addFavoriteFriend,
   getFavoriteFriends,
-  removeFavoriteFriends,
-  getFavouriteFriend,
+  removeFavoriteFriend,
+  getFavoriteFriend,
 } from '../controllers/userFriendController';
 import {
   updateUserProfilePicture,
@@ -25,16 +26,10 @@ const upload = require('../multer');
 const router = express.Router();
 //reset
 
-// users/friends
-
-router.get('/friends', protect, getAllFriends);
-// router.get('/', protect, getAllFriends);
-
 // users/profile/jlsl
 router.get('/profile/:userId', protect, otherUserProfile);
 
 router.post('/signup', signup);
-router.post('/friends', protect, addFriends);
 
 router.post('/forgotPassword', forgotPassword);
 router.post('/resetPassword/:hashedToken', resetPassword);
@@ -49,24 +44,21 @@ router.patch(
 router.get('/', protect, getUser);
 router.patch('/updateUser', protect, updateUser);
 
-//add favorite friends route
-router.get('/friends/:id', protect, getFavouriteFriend);
+// users/friends
 
-router.post('/friends/:id', protect, addFavoriteFriends);
+router
+  .route('/user/friends')
+  .get(protect, getAllFriends)
+  .post(protect, addFriend);
+router.route('/user/friends/:id').get(protect, getFriend);
 
-//get all favorite friends
+router.route('/user/friends/favorite').get(protect, getFavoriteFriends);
 
-router.get('/friend', protect, getFavoriteFriends);
-
+router
+  .route('/user/friends/favorite/:id')
+  .post(protect, addFavoriteFriend)
+  .get(protect, getFavoriteFriend)
+  .delete(protect, removeFavoriteFriend);
 // Remove from favorite friends array from Friends to UserAuth collection by id
 
-router.delete('/friends/:id', protect, removeFavoriteFriends);
 export default router;
-
-const wantedCriminals = [
-    "rob-debob",
-    "jeff-bizos",
-    "de-coder",
-    "intu-ishun",
-];
-
