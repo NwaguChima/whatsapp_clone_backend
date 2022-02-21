@@ -23,7 +23,12 @@ const port = normalizePort(process.env.PORT || '3050');
 app.set('port', port);
 
 export const server = http.createServer(app);
-io.attach(server);
+io.attach(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: 'http://localhost:3000',
+  },
+});
 server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

@@ -27,62 +27,12 @@ export const createMessages = async (
   next: NextFunction
 ) => {
   try {
-    // console.log(green(req.file!.path));
-    // const result = await cloudinary.uploader.upload(req.file!.path, {
-    //   upload_preset: 'whatsapp-clone',
-    // });
-
-    // if (req.body.mediaType === 'video') {
-    //   const result = await cloudinary.uploader.upload(path, {
-    //     resource_type: 'video',
-    //     chunk_size: 6000000,
-    //     eager: [
-    //       {
-    //         width: 300,
-    //         height: 300,
-    //         crop: 'pad',
-    //         audio_codec: 'none',
-    //       },
-    //       {
-    //         width: 160,
-    //         height: 100,
-    //         crop: 'crop',
-    //         gravity: 'south',
-    //         audio_codec: 'none',
-    //       },
-    //     ],
-    //   });
-    // } else if (req.body.mediaType === 'video') {
-    //   const result = await cloudinary.uploader.upload(path, {
-    //     resource_type: 'raw',
-    //   });
-    // } else {
-    //   const result = await cloudinary.uploader.upload(req.file!.path, {
-    //     resource_type: 'raw',
-    //   });
-    // }
-
-    const result = await cloudinary.uploader.upload(req.file!.path, {
-      resource_type: 'raw',
-    });
-    // const result = await cloudinary.uploader.upload(req.file!.path, {
-    //   chunk_size: 6000000,
-    //   eager: [
-    //     {
-    //       width: 300,
-    //       height: 300,
-    //       crop: 'pad',
-    //       audio_codec: 'none',
-    //     },
-    //     {
-    //       width: 160,
-    //       height: 100,
-    //       crop: 'crop',
-    //       gravity: 'south',
-    //       audio_codec: 'none',
-    //     },
-    //   ],
-    // });
+    let result;
+    if (req.body.mediaType) {
+      result = await cloudinary.uploader.upload(req.file!.path, {
+        resource_type: 'raw',
+      });
+    }
 
     if (!req.body.chatId) req.body.chatId = req.params.chatId;
     if (!req.body.senderId) req.body.senderId = req.user.id;
@@ -90,7 +40,8 @@ export const createMessages = async (
     if (!req.body.text && !req.body.mediaType) {
       throw new Error('Message must have a content');
     }
-    if (result.secure_url && result.secure_id) {
+
+    if (result) {
       message = {
         ...req.body,
         mediaUrl: result.secure_url,
@@ -110,3 +61,38 @@ export const createMessages = async (
     console.log(red(err));
   }
 };
+
+// console.log(green(req.file!.path));
+// const result = await cloudinary.uploader.upload(req.file!.path, {
+//   upload_preset: 'whatsapp-clone',
+// });
+
+// if (req.body.mediaType === 'video') {
+//   const result = await cloudinary.uploader.upload(path, {
+//     resource_type: 'video',
+//     chunk_size: 6000000,
+//     eager: [
+//       {
+//         width: 300,
+//         height: 300,
+//         crop: 'pad',
+//         audio_codec: 'none',
+//       },
+//       {
+//         width: 160,
+//         height: 100,
+//         crop: 'crop',
+//         gravity: 'south',
+//         audio_codec: 'none',
+//       },
+//     ],
+//   });
+// } else if (req.body.mediaType === 'video') {
+//   const result = await cloudinary.uploader.upload(path, {
+//     resource_type: 'raw',
+//   });
+// } else {
+//   const result = await cloudinary.uploader.upload(req.file!.path, {
+//     resource_type: 'raw',
+//   });
+// }
