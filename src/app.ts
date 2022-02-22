@@ -4,6 +4,7 @@ import createError from 'http-errors';
 import path from 'path';
 import logger from 'morgan';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import { setupGoogle } from './passport/passport-ggle';
 import authRoutes from './routes/authRouteGgle';
@@ -26,6 +27,8 @@ dotenv.config();
 const app = express();
 
 //middlewares
+
+app.use(cors());
 app.use(express.json({ limit: '500mb' }));
 app.use(session({ secret: process.env.SESSION_SECRET as string }));
 app.use(passport.initialize());
