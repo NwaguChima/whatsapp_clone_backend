@@ -15,7 +15,7 @@ export const deleteMessage = async (req: CustomRequest, res: Response, next: Nex
         console.log(req.params, "request parameters")
     
     const result = await Message.findOneAndDelete({ chatId: req.params.chatId})
-    console.log(result, "hhh")
+    // console.log(result, "hhh")
         
         return res.status(201).json({ status: "success", message: " message deleted....", result})
 
@@ -55,6 +55,18 @@ export const getMediaType = async (
   // next();
 };
 
+
+//Get all messages by a senderId
+
+export const getMessagesBySenderId = async (req: Request, res: Response) => {
+  try {
+    const senderId = req.params.senderId;
+    const messages = await Message.find({ senderId });
+    res.status(200).json({ data: messages.length, messages });
+  } catch (error) {
+    res.status(404).json({ error: 'Unable to get messages' });
+  }
+}
 export const createMessages = async (
   req: CustomRequest,
   res: Response,
@@ -138,3 +150,6 @@ export const createMessages = async (
     console.log(red(err));
   }
 };
+
+
+

@@ -17,7 +17,7 @@ export interface userAuth extends mongoose.Document {
   avatar: string;
   avatarId: string;
   about: string;
-  favoriteFriends: string[];
+  favoriteFriendsList: string[];
 }
 
 const userAuthSchema = new Schema(
@@ -78,7 +78,7 @@ const userAuthSchema = new Schema(
       default: 'Pending',
     },
     //Added Favorite Friends Array
-    favoriteFriends: {
+    favoriteFriendsList: {
       type: [
         {
           type: Schema.Types.ObjectId,
@@ -96,5 +96,14 @@ const userAuthSchema = new Schema(
     },
   }
 );
+
+
+userAuthSchema.pre(/^find/, function (this: any, next) {
+  this.populate({
+    path: 'favoriteFriendsList',
+    select: 'username firstName lastName avatar phoneNumber email',
+  });
+  next();
+})
 
 export const UserAuth = mongoose.model<userAuth>('UserAuth', userAuthSchema);

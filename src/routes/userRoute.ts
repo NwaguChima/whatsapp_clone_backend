@@ -35,7 +35,7 @@ router.patch('/updateUser', protect, upload.single('avatar'), updateUser);
 
 //add favorite friends route
 
-router.post("/friends/:id", protect, addFavoriteFriends);
+router.post("/friend/:id", protect, addFavoriteFriends);
 
 //get all favorite friends
 
@@ -44,5 +44,5 @@ router.get("/friend", protect, getFavoriteFriends);
 
 // Remove from favorite friends array from Friends to UserAuth collection by id
 
-router.delete('/friends/:id', protect, removeFavoriteFriends);
+router.delete('/friend/:id', protect, removeFavoriteFriends);
 export default router;

@@ -4,7 +4,8 @@ import createError from 'http-errors';
 import path from 'path';
 import logger from 'morgan';
 import dotenv from 'dotenv';
-
+import cors from 'cors';
+import Pusher from 'pusher';
 import bodyParser from 'body-parser';
 
 import { setupGoogle } from './passport/passport-ggle';
@@ -24,9 +25,15 @@ import groupRoutes from './routes/groupRoutes';
 // routers
 
 // const app: Application = express();
+
 dotenv.config();
 const app = express();
 
+//Pusher config
+
+
+
+app.use(cors());
 //middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -85,7 +92,7 @@ app.use('/api/v1/users', UserRouter);
 //User auth routes
 app.use('/api/v1/user', emailRoutes);
 
-app.use('api/v1/messages', messageRoutes);
+app.use('/api/v1/messages', messageRoutes);
 
 app.use('/api/v1/chats', privateChatRoutes);
 

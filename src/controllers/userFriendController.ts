@@ -73,7 +73,7 @@ export const addFriends = async (
 export const addFavoriteFriends = async (
   req: CustomRequest,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const userId = req.user!.id;
@@ -81,15 +81,17 @@ export const addFavoriteFriends = async (
 
     const userFriend = await Friend.find({ userId, friendId });
 
+    console.log(userFriend[0].friendId);
+
     const user = await UserAuth.findById(userId);
 
     if (userFriend.length > 0) {
-      if (user!.favoriteFriends.includes(friendId)) {
+      if (user!.favoriteFriendsList.includes(friendId)) {
         return res.status(400).json({
           message: 'This friend already exists as a favorite friend',
         });
       }
-      user!.favoriteFriends.push(friendId);
+      user!.favoriteFriendsList.push(friendId);
 
       await user!.save();
 
@@ -109,8 +111,8 @@ export const addFavoriteFriends = async (
   }
 };
 
-// Get user favorite friends array from UserAuth by id
 
+// Get user favorite friends array from UserAuth by id
 export const getFavoriteFriends = async (
   req: CustomRequest,
   res: Response,
@@ -122,7 +124,7 @@ export const getFavoriteFriends = async (
     const user = await UserAuth.findById(userId);
 
     if (user) {
-      const favoriteFriendsList = user!.favoriteFriends;
+      const favoriteFriendsList = user!.favoriteFriendsList;
 
       res.status(200).json({
         status: 'success',
@@ -156,13 +158,13 @@ export const removeFavoriteFriends = async (
     const user = await UserAuth.findById(userId);
 
     if (userFriend.length > 0) {
-      if (!user!.favoriteFriends.includes(friendId)) {
+      if (!user!.favoriteFriendsList.includes(friendId)) {
         return res.status(400).json({
           message: 'This friend does not exist as a favorite friend',
         });
       }
-      const index = user!.favoriteFriends.indexOf(friendId);
-      user!.favoriteFriends.splice(index, 1);
+      const index = user!.favoriteFriendsList.indexOf(friendId);
+      user!.favoriteFriendsList.splice(index, 1);
 
       await user!.save();
 
@@ -181,4 +183,3 @@ export const removeFavoriteFriends = async (
     res.status(500).json({ error: error.message });
   }
 };
-
