@@ -4,6 +4,7 @@ import createError from 'http-errors';
 import path from 'path';
 import logger from 'morgan';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import bodyParser from 'body-parser';
 
@@ -29,6 +30,8 @@ dotenv.config();
 const app = express();
 
 //middlewares
+
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
@@ -49,6 +52,10 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile(publicPath);
 });
+
+// app.get('/homepage', (req, res) => {
+//   res.status(200).json({ msg: 'Hello broooo' });
+// });
 
 setupGoogle();
 app.use('/', authRoutes);

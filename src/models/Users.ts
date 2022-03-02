@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 export interface userAuth extends mongoose.Document {
   user: string;
-  userName: string;
+  username: string;
   firstName: string;
   lastName: string;
   email: string;

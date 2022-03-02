@@ -64,7 +64,9 @@ export const loginUser = async (
         process.env.ACCESS_TOKEN_SECRET as Secret
       );
       req.user! = findUser;
-      return res.status(201).json({ message: 'login successful', accessToken });
+      return res
+        .status(201)
+        .json({ message: 'login successful', accessToken, user: findUser });
     } catch (error: any) {
       console.log(error);
       res.status(403).json({ error });

@@ -67,6 +67,8 @@ export const updateUser = async (
       phoneNumber: req.body.phoneNumber
         ? req.body.phoneNumber
         : req.user!.phoneNumber,
+      username: req.body.username ? req.body.username : req.user!.username,
+      about: req.body.about ? req.body.about : req.user!.about,
     };
 
     const updatedUser = await UserAuth.findByIdAndUpdate(

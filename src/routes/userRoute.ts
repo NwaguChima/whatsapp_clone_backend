@@ -46,19 +46,19 @@ router.patch('/updateUser', protect, updateUser);
 
 // users/friends
 
-router
-  .route('/user/friends')
-  .get(protect, getAllFriends)
-  .post(protect, addFriend);
-router.route('/user/friends/:id').get(protect, getFriend);
+router.route('/friends').get(protect, getAllFriends).post(protect, addFriend);
 
-router.route('/user/friends/favorite').get(protect, getFavoriteFriends);
+router.route('/friends/:id').get(protect, getFriend);
+
+router.route('/friends/favorite').get(protect, getFavoriteFriends);
 
 router
-  .route('/user/friends/favorite/:id')
+  .route('/friends/favorite/:id')
   .post(protect, addFavoriteFriend)
   .get(protect, getFavoriteFriend)
   .delete(protect, removeFavoriteFriend);
 // Remove from favorite friends array from Friends to UserAuth collection by id
 
 export default router;
+
+// ('http://localhost:3050/api/v1/users/friends/favorite/61f96689a9bfac9a30be7977');
