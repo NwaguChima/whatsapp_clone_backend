@@ -7,29 +7,28 @@ import cloudinary from '../utils/cloud_data/cloudinary-main';
 const red = Chalk.magenta.inverse.italic;
 const green = Chalk.green.inverse.italic;
 
+let message = {};
 
+export const deleteMessage = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log(req.params, 'request parameters');
 
-export const deleteMessage = async (req: CustomRequest, res: Response, next: NextFunction) => {
-    try {
-    
-        console.log(req.params, "request parameters")
-    
-    const result = await Message.findOneAndDelete({ chatId: req.params.chatId})
-    // console.log(result, "hhh")
-        
-        return res.status(201).json({ status: "success", message: " message deleted....", result})
+    const result = await Message.findOneAndDelete({
+      chatId: req.params.chatId,
+    });
+    console.log(result, 'hhh');
 
-    
-
-
-} catch (error) {
-    return res.status(500).json({error});
-}
-}
-
-
-
-
+    return res
+      .status(201)
+      .json({ status: 'success', message: ' message deleted....', result });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
 
 /* Route for getting all the messages for a private chat */
 export async function getMessages(req: Request, res: Response) {
@@ -41,7 +40,6 @@ export async function getMessages(req: Request, res: Response) {
     res.status(404).json({ error: 'Unable to get messages' });
   }
 }
-
 
 export const getMediaType = async (
   req: Request,
@@ -73,62 +71,12 @@ export const createMessages = async (
   next: NextFunction
 ) => {
   try {
-    // console.log(green(req.file!.path));
-    // const result = await cloudinary.uploader.upload(req.file!.path, {
-    //   upload_preset: 'whatsapp-clone',
-    // });
-
-    // if (req.body.mediaType === 'video') {
-    //   const result = await cloudinary.uploader.upload(path, {
-    //     resource_type: 'video',
-    //     chunk_size: 6000000,
-    //     eager: [
-    //       {
-    //         width: 300,
-    //         height: 300,
-    //         crop: 'pad',
-    //         audio_codec: 'none',
-    //       },
-    //       {
-    //         width: 160,
-    //         height: 100,
-    //         crop: 'crop',
-    //         gravity: 'south',
-    //         audio_codec: 'none',
-    //       },
-    //     ],
-    //   });
-    // } else if (req.body.mediaType === 'video') {
-    //   const result = await cloudinary.uploader.upload(path, {
-    //     resource_type: 'raw',
-    //   });
-    // } else {
-    //   const result = await cloudinary.uploader.upload(req.file!.path, {
-    //     resource_type: 'raw',
-    //   });
-    // }
-
-    const result = await cloudinary.uploader.upload(req.file!.path, {
-      resource_type: 'raw',
-    });
-    // const result = await cloudinary.uploader.upload(req.file!.path, {
-    //   chunk_size: 6000000,
-    //   eager: [
-    //     {
-    //       width: 300,
-    //       height: 300,
-    //       crop: 'pad',
-    //       audio_codec: 'none',
-    //     },
-    //     {
-    //       width: 160,
-    //       height: 100,
-    //       crop: 'crop',
-    //       gravity: 'south',
-    //       audio_codec: 'none',
-    //     },
-    //   ],
-    // });
+    let result;
+    if (req.body.mediaType) {
+      result = await cloudinary.uploader.upload(req.file!.path, {
+        resource_type: 'raw',
+      });
+    }
 
     if (!req.body.chatId) req.body.chatId = req.params.chatId;
     if (!req.body.senderId) req.body.senderId = req.user.id;
@@ -136,11 +84,18 @@ export const createMessages = async (
     if (!req.body.text && !req.body.mediaType) {
       throw new Error('Message must have a content');
     }
-    const message = {
-      ...req.body,
-      mediaUrl: result.secure_url,
-      mediaId: result.public_id,
-    };
+
+    if (result) {
+      message = {
+        ...req.body,
+        mediaUrl: result.secure_url,
+        mediaId: result.public_id,
+      };
+    } else {
+      message = {
+        ...req.body,
+      };
+    }
 
     const newMessage = await Message.create(message);
 
@@ -151,5 +106,37 @@ export const createMessages = async (
   }
 };
 
+// console.log(green(req.file!.path));
+// const result = await cloudinary.uploader.upload(req.file!.path, {
+//   upload_preset: 'whatsapp-clone',
+// });
 
-
+// if (req.body.mediaType === 'video') {
+//   const result = await cloudinary.uploader.upload(path, {
+//     resource_type: 'video',
+//     chunk_size: 6000000,
+//     eager: [
+//       {
+//         width: 300,
+//         height: 300,
+//         crop: 'pad',
+//         audio_codec: 'none',
+//       },
+//       {
+//         width: 160,
+//         height: 100,
+//         crop: 'crop',
+//         gravity: 'south',
+//         audio_codec: 'none',
+//       },
+//     ],
+//   });
+// } else if (req.body.mediaType === 'video') {
+//   const result = await cloudinary.uploader.upload(path, {
+//     resource_type: 'raw',
+//   });
+// } else {
+//   const result = await cloudinary.uploader.upload(req.file!.path, {
+//     resource_type: 'raw',
+//   });
+// }

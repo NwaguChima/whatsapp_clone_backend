@@ -28,7 +28,7 @@ export const getAllFriends = async (
   }
 };
 
-export const addFriends = async (
+export const addFriend = async (
   req: CustomRequest,
   res: Response,
   next: NextFunction
@@ -70,7 +70,7 @@ export const addFriends = async (
 
 // User add to favorite friends array from Friends to UserAuth collection by id
 
-export const addFavoriteFriends = async (
+export const addFavoriteFriend = async (
   req: CustomRequest,
   res: Response,
   _next: NextFunction
@@ -144,7 +144,7 @@ export const getFavoriteFriends = async (
 
 // User remove from favorite friends array from Friends to UserAuth collection by id
 
-export const removeFavoriteFriends = async (
+export const removeFavoriteFriend = async (
   req: CustomRequest,
   res: Response,
   next: NextFunction

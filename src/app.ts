@@ -6,6 +6,7 @@ import logger from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import Pusher from 'pusher';
+
 import bodyParser from 'body-parser';
 
 import { setupGoogle } from './passport/passport-ggle';
@@ -22,6 +23,7 @@ import UserRouter from './routes/userRoute';
 import messageRoutes from './routes/messageRoutes';
 import privateChatRoutes from './routes/privateChatRoute';
 import groupRoutes from './routes/groupRoutes';
+import friendRoutes from './routes/friendRoutes';
 // routers
 
 // const app: Application = express();
@@ -35,6 +37,8 @@ const app = express();
 
 app.use(cors());
 //middlewares
+
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
@@ -55,6 +59,10 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile(publicPath);
 });
+
+// app.get('/homepage', (req, res) => {
+//   res.status(200).json({ msg: 'Hello broooo' });
+// });
 
 setupGoogle();
 app.use('/', authRoutes);
@@ -97,6 +105,8 @@ app.use('/api/v1/messages', messageRoutes);
 app.use('/api/v1/chats', privateChatRoutes);
 
 app.use('/api/v1/groups', groupRoutes);
+
+app.use('/api/v1/friends', friendRoutes);
 // ERROR HANDLERS =========
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

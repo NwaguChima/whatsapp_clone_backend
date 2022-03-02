@@ -47,3 +47,32 @@ export const privateChat = async (
     console.log(red(err));
   }
 };
+
+export const getMyPrivateChat = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const sender = req.user.id;
+    // const reciever = req.body.members;
+
+    // const existingConversation = await PrivateChat.findOne({
+    //   $and: [{ members: sender }, { members: reciever }],
+    // });
+
+    const existingConversation = await PrivateChat.findOne({
+      $and: [{ members: sender }],
+    });
+
+    if (existingConversation) {
+      return res.status(200).json({
+        status: 'success',
+        data: existingConversation,
+      });
+    }
+  } catch (err) {
+    res.status(403).json({ err });
+    console.log(red(err));
+  }
+};
