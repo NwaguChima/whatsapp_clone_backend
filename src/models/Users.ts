@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { SchemaTypes } from 'mongoose';
 import validator from 'validator';
 
 const Schema = mongoose.Schema;
 
 export interface userAuth extends mongoose.Document {
   user: string;
-  userName: string;
+  username: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -34,6 +34,7 @@ const userAuthSchema = new Schema(
       type: String,
       required: true,
     },
+
     avatar: {
       type: String,
     },
@@ -76,9 +77,14 @@ const userAuthSchema = new Schema(
       enum: ['Pending', 'Active'],
       default: 'Pending',
     },
+    //Added Favorite Friends Array
     favoriteFriends: {
-      type: Schema.Types.ObjectId,
-      ref: 'Friend',
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'UserAuth',
+        },
+      ],
     },
   },
   {

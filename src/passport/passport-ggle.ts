@@ -1,5 +1,7 @@
 import { UserAuth as Users } from '../models/Users';
 import passport from 'passport';
+import { profile } from 'console';
+
 export const setupGoogle = () => {
   const GoogleStrategy = require('passport-google-oauth20').Strategy;
   passport.use(
@@ -52,3 +54,5 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user: Express.User, done) {
   return done(null, user);
 });
+
+export default profile

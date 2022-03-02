@@ -1,13 +1,45 @@
 import { Request, Response, NextFunction } from 'express';
 import { Message } from '../models/MessageModel';
-import Chalk from 'chalk';
 import { CustomRequest } from '../utils/custom';
+import Chalk from 'chalk';
 import cloudinary from '../utils/cloud_data/cloudinary-main';
 
 const red = Chalk.magenta.inverse.italic;
 const green = Chalk.green.inverse.italic;
 
 let message = {};
+
+export const deleteMessage = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log(req.params, 'request parameters');
+
+    const result = await Message.findOneAndDelete({
+      chatId: req.params.chatId,
+    });
+    console.log(result, 'hhh');
+
+    return res
+      .status(201)
+      .json({ status: 'success', message: ' message deleted....', result });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
+/* Route for getting all the messages for a private chat */
+export async function getMessages(req: Request, res: Response) {
+  try {
+    const chatId = req.params.chatId;
+    const messages = await Message.find({ chatId });
+    res.status(200).json({ data: messages.length, messages });
+  } catch (error) {
+    res.status(404).json({ error: 'Unable to get messages' });
+  }
+}
 
 export const getMediaType = async (
   req: Request,

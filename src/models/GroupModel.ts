@@ -1,16 +1,17 @@
 import mongoose from 'mongoose';
+import { UserAuth } from './Users';
 
 const Schema = mongoose.Schema;
 
 export interface IGroup extends mongoose.Document {
-  createdBy: string;
-  members: string[];
-  groupName: string;
-  groupDescription: string;
-  groupImage: string;
-  groupImageId: string;
-  groupAdmin: string;
-  slug: string;
+  createdBy:string;
+  members:string[];
+  groupName:string;
+  groupDescription:string;
+  groupImage:string;
+  groupImageId:string;
+  groupAdmins:string[];
+  slug:string;
   createdAt: Date;
   groupId: string;
 }
@@ -29,7 +30,7 @@ const GroupSchema = new Schema(
           ref: 'UserAuth',
         },
       ],
-      required: [true, 'members is required'],
+      required: [true, 'members are required'],
     },
     groupName: {
       type: String,
