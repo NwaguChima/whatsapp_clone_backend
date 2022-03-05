@@ -13,8 +13,8 @@ describe('Whatsapp Sign Up User', () => {
       profilePicture: '',
     };
 
-    const response = await request(app).post('/api/v1/auth/signup').send(data);
-    console.log(response.body.user);
+    const response = await request(app).post('/api/v1/users/signup').send(data);
+    // console.log(response.body.user);
 
     expect(response.status).toBe(201);
     expect(response.body.user).toHaveProperty('confirmCode');

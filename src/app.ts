@@ -26,9 +26,13 @@ import friendRoutes from './routes/friendRoutes';
 // routers
 
 // const app: Application = express();
+
 dotenv.config();
 const app = express();
 
+//Pusher config
+
+app.use(cors());
 //middlewares
 
 app.use(cors());
@@ -93,7 +97,7 @@ app.use('/api/v1/users', UserRouter);
 //User auth routes
 app.use('/api/v1/user', emailRoutes);
 
-app.use('api/v1/messages', messageRoutes);
+app.use('/api/v1/messages', messageRoutes);
 
 app.use('/api/v1/chats', privateChatRoutes);
 

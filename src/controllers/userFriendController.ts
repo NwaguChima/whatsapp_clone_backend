@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { Friend } from '../models/userFriendModel';
-import { Group } from '../models/GroupModel';
 import { UserAuth } from '../models/Users';
 import { CustomRequest } from '../utils/custom';
 import { ReqUser } from '../utils/customReq';
@@ -14,7 +13,8 @@ export const getAllFriends = async (
 ) => {
   try {
     const userLogin = req.user!.id;
-    const friends = await Friend.find({ userId: userLogin });
+
+    const friends = await Friend.find({ users: userLogin });
 
     return res.status(200).json({
       status: 'success',
@@ -68,6 +68,7 @@ export const addFriend = async (
   }
 };
 
+// Get Friend
 export const getFriend = async (req: CustomRequest, res: Response) => {
   try {
     const userId = req.user!.id;
@@ -93,52 +94,63 @@ export const getFriend = async (req: CustomRequest, res: Response) => {
 
 // User add to favorite friends array from Friends to UserAuth collection by id
 
-export const addFavoriteFriend = async (req: CustomRequest, res: Response) => {
+export const addFavoriteFriend = async (
+  req: CustomRequest,
+  res: Response,
+  _next: NextFunction
+) => {
   try {
     const userId = req.user!.id;
     const friendId = req.params.id;
 
     const userFriend = await Friend.find({ userId, friendId });
-    console.log(userFriend);
-    if (userFriend.length <= 0) {
-      return res.status(404).json({
-        message:
-          'Must make them friends first before they can become favourites',
-      });
-    }
+
+    // console.log(userFriend[0].friendId);
+
+    console.log(friendId);
+
     const user = await UserAuth.findById(userId);
 
-    if (user!.favoriteFriends.includes(friendId)) {
-      return res.status(400).json({
-        message: 'This friend already exists as a favorite friend',
+    if (userFriend.length > 0) {
+      if (user!.favoriteFriendsList.includes(friendId)) {
+        return res.status(400).json({
+          message: 'This friend already exists as a favorite friend',
+        });
+      }
+      user!.favoriteFriendsList.push(friendId);
+
+      await user!.save();
+
+      res.status(201).json({
+        status: 'success',
+        data: {
+          friendId,
+        },
+      });
+    } else {
+      res.status(400).json({
+        message: 'friend not exist',
       });
     }
-    user!.favoriteFriends.push(friendId);
-    const friendDetails = await UserAuth.findById(friendId);
-    await user!.save();
-
-    res.status(201).json({
-      status: 'success',
-      data: {
-        friendDetails,
-      },
-    });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 };
 
 // Get user favorite friends array from UserAuth by id
-
-export const getFavoriteFriends = async (req: CustomRequest, res: Response) => {
+export const getFavoriteFriends = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('>>> userId:', req.user!.id);
   try {
     const userId = req.user!.id;
 
     const user = await UserAuth.findById(userId);
-    console.log('in get favorite friends');
-    console.log(user);
+
     if (user) {
-      const favoriteFriendsList = user!.favoriteFriends;
+      const favoriteFriendsList = user!.favoriteFriendsList;
 
       res.status(200).json({
         status: 'success',
@@ -152,44 +164,11 @@ export const getFavoriteFriends = async (req: CustomRequest, res: Response) => {
       });
     }
   } catch (error: any) {
-    res.status(500).json({
-      error: error,
-    });
-  }
-};
-
-export const getFavoriteFriend = async (req: CustomRequest, res: Response) => {
-  try {
-    // const queryId = req.query.friendId;
-    console.log('in get favorite friend');
-    const friendId = req.params.id;
-
-    const userId = req.user.id;
-    const user = await UserAuth.findById(userId);
-    const favoriteId = user!.favoriteFriends.find((id) => id == friendId);
-
-    const friendDetails = await UserAuth.findById(favoriteId);
-
-    if (!user!.favoriteFriends.includes(friendId)) {
-      return res.status(400).json({
-        message: 'This friend does not exist as a favorite friend',
-      });
-    }
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        friendId,
-      },
-    });
-  } catch (err: any) {
-    console.log(err);
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
 // User remove from favorite friends array from Friends to UserAuth collection by id
-
 export const removeFavoriteFriend = async (
   req: CustomRequest,
   res: Response,
@@ -204,13 +183,13 @@ export const removeFavoriteFriend = async (
     const user = await UserAuth.findById(userId);
 
     if (userFriend.length > 0) {
-      if (!user!.favoriteFriends.includes(friendId)) {
+      if (!user!.favoriteFriendsList.includes(friendId)) {
         return res.status(400).json({
           message: 'This friend does not exist as a favorite friend',
         });
       }
-      const index = user!.favoriteFriends.indexOf(friendId);
-      user!.favoriteFriends.splice(index, 1);
+      const index = user!.favoriteFriendsList.indexOf(friendId);
+      user!.favoriteFriendsList.splice(index, 1);
 
       await user!.save();
 

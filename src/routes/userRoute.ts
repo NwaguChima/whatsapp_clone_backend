@@ -41,9 +41,11 @@ router.post('/friend/:id', protect, addFavoriteFriend);
 // users/friends
 router.route('/friends').get(protect, getAllFriends).post(protect, addFriend);
 router.route('/friends/:id').get(protect, getFriend);
+
 // router.route('/friends/favorite').get(protect, getFavoriteFriends);
 router.get('/getfavorites', protect, getFavoriteFriends);
 router.post('/favorite/:id', protect, removeFavoriteFriend);
+
 // router
 //   .route('/friends/favorite/:id')
 //   .post(protect, addFavoriteFriend)

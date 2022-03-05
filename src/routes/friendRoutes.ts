@@ -5,6 +5,6 @@ import { getFavouriteFriends } from '../controllers/get_favourite_controller';
 const router = express.Router();
 
 router.route('/').get(protect, getFriend);
-router.route('/getFavoriteFriends').get(protect, getFavouriteFriends);
+// router.route('/getFavoriteFriends').get(protect, getFavouriteFriends);
 
 export default router;
