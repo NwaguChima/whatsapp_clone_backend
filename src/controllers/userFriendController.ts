@@ -179,7 +179,7 @@ export const getFavoriteFriend = async (req: CustomRequest, res: Response) => {
     res.status(200).json({
       status: 'success',
       data: {
-        friendDetails,
+        friendId,
       },
     });
   } catch (err: any) {
