@@ -4,9 +4,9 @@ import Pusher from 'pusher';
 import { Message } from '../models/MessageModel';
 
 const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID as string,
-  key: process.env.PUSHER_APP_KEY as string,
-  secret: process.env.PUSHER_APP_SECRET as string,
+  appId: '1355512',
+  key: '94d55bd3b0ecf1274ef3',
+  secret: '0744120e6b55a58f9043',
   cluster: 'eu',
   useTLS: true,
 });
@@ -29,6 +29,18 @@ export const mongoDBConnect = () => {
 
         changeStream.on('change', (change) => {
           console.log(change);
+
+          if (change.operationType === 'insert') {
+            const messageDetails = change.fullDocument;
+
+            pusher.trigger("messages", "inserted", {
+              message: messageDetails.text,
+              timestamp: messageDetails.createdAt,
+              
+            })
+          } else {
+            console.log('Error triggering Pusher');
+          }
         });
       })
       .catch((err) => {

@@ -68,6 +68,30 @@ export const addFriend = async (
   }
 };
 
+// Get Friend
+export const getFriend = async (req: CustomRequest, res: Response) => {
+  try {
+    const userId = req.user!.id;
+    const friendId = req.params.id;
+    const friend = await Friend.find({ userId, friendId });
+    console.log(friend);
+    const friendDetails = await UserAuth.find({ _id: friendId });
+    if (!friend) {
+      return res.status(404).json({
+        message: 'friend not found',
+      });
+    }
+    res.status(200).json({
+      status: 'success',
+      data: {
+        friendDetails,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
 // User add to favorite friends array from Friends to UserAuth collection by id
 
 export const addFavoriteFriend = async (
@@ -81,7 +105,9 @@ export const addFavoriteFriend = async (
 
     const userFriend = await Friend.find({ userId, friendId });
 
-    console.log(userFriend[0].friendId);
+    // console.log(userFriend[0].friendId);
+
+    console.log(friendId);
 
     const user = await UserAuth.findById(userId);
 
@@ -111,13 +137,13 @@ export const addFavoriteFriend = async (
   }
 };
 
-
 // Get user favorite friends array from UserAuth by id
 export const getFavoriteFriends = async (
   req: CustomRequest,
   res: Response,
   next: NextFunction
 ) => {
+  console.log('>>> userId:', req.user!.id);
   try {
     const userId = req.user!.id;
 
@@ -143,7 +169,6 @@ export const getFavoriteFriends = async (
 };
 
 // User remove from favorite friends array from Friends to UserAuth collection by id
-
 export const removeFavoriteFriend = async (
   req: CustomRequest,
   res: Response,
