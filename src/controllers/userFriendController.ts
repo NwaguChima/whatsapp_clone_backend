@@ -74,7 +74,6 @@ export const getFriend = async (req: CustomRequest, res: Response) => {
     const userId = req.user!.id;
     const friendId = req.params.id;
     const friend = await Friend.find({ userId, friendId });
-    console.log(friend);
     const friendDetails = await UserAuth.find({ _id: friendId });
     if (!friend) {
       return res.status(404).json({
@@ -104,10 +103,6 @@ export const addFavoriteFriend = async (
     const friendId = req.params.id;
 
     const userFriend = await Friend.find({ userId, friendId });
-
-    // console.log(userFriend[0].friendId);
-
-    console.log(friendId);
 
     const user = await UserAuth.findById(userId);
 
@@ -143,7 +138,6 @@ export const getFavoriteFriends = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('>>> userId:', req.user!.id);
   try {
     const userId = req.user!.id;
 

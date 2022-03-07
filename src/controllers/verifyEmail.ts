@@ -81,7 +81,6 @@ export const protect = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('>>> protect is working...');
   let token;
   // 1) Getting token and check if its there
 

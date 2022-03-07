@@ -33,11 +33,10 @@ export const mongoDBConnect = () => {
           if (change.operationType === 'insert') {
             const messageDetails = change.fullDocument;
 
-            pusher.trigger("messages", "inserted", {
+            pusher.trigger('messages', 'inserted', {
               message: messageDetails.text,
               timestamp: messageDetails.createdAt,
-              
-            })
+            });
           } else {
             console.log('Error triggering Pusher');
           }

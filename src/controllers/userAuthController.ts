@@ -145,8 +145,6 @@ export const otherUserProfile = async (req: Request, res: Response) => {
   try {
     // get the user id
 
-    console.log(req.params);
-
     const { userId } = req.params;
     const otherUser = await UserAuth.findById(userId);
     // check if the user exist, if not return an error message
