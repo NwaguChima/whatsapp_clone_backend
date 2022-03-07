@@ -32,7 +32,6 @@ const app = express();
 
 //Pusher config
 
-app.use(cors());
 //middlewares
 
 app.use(cors());
